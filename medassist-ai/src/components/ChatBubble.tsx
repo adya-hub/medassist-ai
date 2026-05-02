@@ -54,20 +54,25 @@ export default function ChatBubble({ message, isUser }: ChatBubbleProps) {
           {isUser ? (
             message
           ) : (
-            <ReactMarkdown
-              components={{
-                p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
-                ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2 space-y-1" {...props} />,
-                ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2 space-y-1" {...props} />,
-                li: ({node, ...props}) => <li className="" {...props} />,
-                h1: ({node, ...props}) => <h1 className="text-lg font-bold mt-3 mb-1 text-gray-900" {...props} />,
-                h2: ({node, ...props}) => <h2 className="text-md font-bold mt-4 mb-2 text-green-700 border-b border-gray-100 pb-1" {...props} />,
-                h3: ({node, ...props}) => <h3 className="text-base font-semibold mt-2 mb-1 text-gray-800" {...props} />,
-                strong: ({node, ...props}) => <strong className="font-semibold text-gray-900" {...props} />,
-              }}
-            >
-              {message}
-            </ReactMarkdown>
+            <>
+              <ReactMarkdown
+                components={{
+                  p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                  ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2 space-y-1" {...props} />,
+                  ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2 space-y-1" {...props} />,
+                  li: ({node, ...props}) => <li className="" {...props} />,
+                  h1: ({node, ...props}) => <h1 className="text-lg font-bold mt-3 mb-1 text-gray-900" {...props} />,
+                  h2: ({node, ...props}) => <h2 className="text-md font-bold mt-4 mb-2 text-green-700 border-b border-gray-100 pb-1" {...props} />,
+                  h3: ({node, ...props}) => <h3 className="text-base font-semibold mt-2 mb-1 text-gray-800" {...props} />,
+                  strong: ({node, ...props}) => <strong className="font-semibold text-gray-900" {...props} />,
+                }}
+              >
+                {message}
+              </ReactMarkdown>
+              <div className="mt-4 pt-3 border-t border-gray-100 text-[11px] font-bold text-red-500 tracking-tight text-right italic">
+                Crafted with care • By Adya Sharma
+              </div>
+            </>
           )}
         </div>
       </div>
