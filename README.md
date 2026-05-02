@@ -6,14 +6,39 @@ MedAssist AI is a premium, full-stack AI healthcare assistant designed to provid
 
 ---
 
-## ✨ Features
+## 🏗️ Project Architecture
 
-- **🧠 Intelligent Chat:** Ask health-related questions and get structured, safe, and empathetic responses.
-- **📄 Report Analysis:** Upload medical reports (PDF/Images) for instant, simplified explanations of complex terms and abnormal values.
-- **🛡️ Medical Guardrails:** Strict AI system prompts ensure no medical diagnoses or prescriptions are provided.
-- **🔐 Premium Auth UI:** Fully designed Login and Signup experience with live password validation.
-- **📱 Ultra-Responsive:** Optimized for a seamless experience across Mobile, Tablet, and Desktop.
-- **🎨 Modern Aesthetic:** Minimalist UI inspired by top-tier SaaS products like Linear and Stripe.
+```mermaid
+graph TD
+    User([User Browser]) --> Frontend[Next.js 15 Frontend]
+    Frontend --> Vercel[Vercel Edge Network]
+    Vercel --> API[Render Backend - Node.js/Express]
+    API --> Gemini[Google Gemini 2.5 AI Model]
+    API --> Security[Medical Safety Guardrails]
+    Security --> Gemini
+    Gemini --> API
+    API --> Frontend
+```
+
+---
+
+## ✨ Key Features
+
+### 🧠 Intelligent Health Assistant
+Experience high-context conversations with an AI specifically tuned for healthcare guidance. The system maintains conversation history to provide relevant, multi-turn assistance.
+
+### 📄 Automated Medical Report Analysis
+Upload complex lab results (CBC, Lipid Profile, etc.) and receive a structured breakdown that explains medical jargon in plain English while highlighting critical values.
+
+### 🛡️ Enterprise-Grade Safety
+- **Non-Diagnostic AI:** The system is strictly tuned to avoid making diagnoses or prescriptions.
+- **Automated Disclaimers:** Every response is paired with a medical advisory.
+- **Data Privacy:** Secure handling of uploaded documents via memory buffers (no persistent file storage).
+
+### 🔐 Modern Authentication System
+- **Next.js Server Components:** Optimized for performance and SEO.
+- **Live Validation:** Real-time feedback on password strength and email format.
+- **Glassmorphic Design:** A state-of-the-art UI system built with Tailwind CSS.
 
 ---
 
