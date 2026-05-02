@@ -31,23 +31,28 @@ app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
 
+    if (!message) {
+      return res.json({ reply: "Please send a message" });
+    }
+
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
     });
 
     const result = await model.generateContent(message);
-    const text = result.response.text();
+
+    // ✅ Safe response extraction
+    const text =
+      result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No response from AI";
 
     res.json({ reply: text });
 
   } catch (error) {
-    console.error("❌ Gemini Error:", error.message);
-    res.json({ reply: "Error: " + error.message });
+    console.error("❌ Gemini Error FULL:", error);
+
+    res.json({
+      reply: "AI ERROR: " + error.message,
+    });
   }
-});
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
 });
