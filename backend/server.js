@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔥 API KEY CHECK
 const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
@@ -18,15 +17,14 @@ if (!API_KEY) {
   console.log("✅ API KEY LOADED");
 }
 
-// 🔥 Gemini setup
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-// TEST route
+// root test
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// CHAT route
+// chat route (safe)
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
@@ -41,16 +39,24 @@ app.post("/chat", async (req, res) => {
 
     const result = await model.generateContent(message);
 
-    // ✅ safest way (official)
-    const text = result.response.text();
+    let text = "No response";
+
+    try {
+      text = result.response.text();
+    } catch (e) {
+      console.log("⚠️ fallback response used");
+    }
 
     res.json({ reply: text });
 
   } catch (error) {
-    console.error("❌ FULL ERROR:", error);
-
-    res.json({
-      reply: "AI ERROR: " + error.message,
-    });
+    console.error("❌ ERROR:", error);
+    res.json({ reply: "AI ERROR: " + error.message });
   }
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
 });
