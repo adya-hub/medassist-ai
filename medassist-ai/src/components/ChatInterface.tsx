@@ -62,8 +62,10 @@ export default function ChatInterface() {
       text: m.text
     }));
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+
     try {
-      const response = await fetchWithTimeout("http://localhost:5001/chat", {
+      const response = await fetchWithTimeout(`${API_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, history })
@@ -95,6 +97,7 @@ export default function ChatInterface() {
   };
 
   const handleFileUpload = async (file: File) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
     // 10 MB limit check
     if (file.size > 10 * 1024 * 1024) {
       alert("File size exceeds 10MB limit. Please upload a smaller file.");
@@ -123,7 +126,7 @@ export default function ChatInterface() {
       const formData = new FormData();
       formData.append("report", file);
 
-      const response = await fetchWithTimeout("http://localhost:5001/analyze", {
+      const response = await fetchWithTimeout(`${API_URL}/analyze`, {
         method: "POST",
         body: formData,
       }, 45000); // 45s timeout for analysis
