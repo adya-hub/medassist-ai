@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 dotenv.config();
 
@@ -21,28 +21,24 @@ if (!API_KEY) {
 // 🔥 Gemini setup
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-// 🔥 TEST ROUTE
+// TEST route
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// 🔥 CHAT ROUTE
+// CHAT route
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
-
-    if (!message) {
-      return res.json({ reply: "Please send a message" });
-    }
 
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
     });
 
     const result = await model.generateContent(message);
-    const response = result.response.text();
+    const text = result.response.text();
 
-    res.json({ reply: response });
+    res.json({ reply: text });
 
   } catch (error) {
     console.error("❌ Gemini Error:", error.message);
@@ -50,9 +46,8 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// 🔥 PORT FIX (IMPORTANT for Render)
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log("Server running on port " + PORT);
 });
