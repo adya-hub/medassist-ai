@@ -41,15 +41,13 @@ app.post("/chat", async (req, res) => {
 
     const result = await model.generateContent(message);
 
-    // ✅ Safe response extraction
-    const text =
-      result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No response from AI";
+    // ✅ safest way (official)
+    const text = result.response.text();
 
     res.json({ reply: text });
 
   } catch (error) {
-    console.error("❌ Gemini Error FULL:", error);
+    console.error("❌ FULL ERROR:", error);
 
     res.json({
       reply: "AI ERROR: " + error.message,
